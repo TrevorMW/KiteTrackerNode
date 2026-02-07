@@ -1,0 +1,18 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES2020",
+    "lib": ["ES2020"],
+    "types": ["node"],
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    "rootDir": "src",
+    "outDir": "dist",
+    "baseUrl": "src",
+    "noEmit": false
+  },
+  "include": ["src/**/*"]
+}

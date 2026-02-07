@@ -1,0 +1,100 @@
+@import '../variables.scss';
+
+form{
+    
+}
+
+fieldset{
+    margin-bottom:21px;
+    padding:21px;
+    border:1px solid #eee;
+
+    & legend{
+        background-color:#eee;
+        padding:10px;
+        color:$skyBlue;
+        font-size:1.3rem;
+        font-weight:500;
+
+        &.hasAction{
+            display: flex;
+            width:100%;
+            justify-content: space-between;
+            align-items: center;
+            background-color:transparent;
+            padding:0;
+
+            & > div{
+                background-color:transparent;
+                padding:10px;
+                color:$skyBlue;
+                font-weight:500;
+
+                line-height:1;
+            }
+
+            & a{
+                display: flex;
+                align-items: center;
+                gap:8px;
+            }
+        }
+    }
+
+    &.submit{
+        border:0;
+        padding:21px 0;
+        text-align: right;
+    }
+}
+
+
+label{
+    display: inline-block;
+    margin-bottom:21px;
+}
+
+input,
+select,
+textarea{
+    
+    display: inherit;
+    width:100%;
+    border:1px solid #ddd;
+    padding:14px;
+    color:$black;
+    background-color:$white;
+
+    &:disabled{
+        background-color:#f9f9f9;
+    }
+
+    &:focus{
+        border-color:$skyBlue;
+    }
+}
+
+.fieldControl{
+    margin-bottom:21px;
+    display: block;
+    width:auto;
+
+    &.half{
+        display: inline-block;
+        width:48%;
+    }
+
+    &.third{
+        display: inline-block;
+        width:31%;
+    }
+
+    &.last{
+        float:right;
+
+    }
+}
+
+textarea{
+    min-height:250px;
+}

@@ -1,0 +1,46 @@
+{
+  "name": "kitetracker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "check:server": "tsc -p server --noEmit",
+    "build:server": "tsc -p server",
+    "build:client": "webpack --watch --config webpack/webpack.common.js",
+    "start:server": "nodemon",
+    "compile": "npm run check:server && npm run build:server && npm run build:client "
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/google.maps": "^3.58.1",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^25.0.10",
+    "@types/react": "^19.2.9",
+    "@types/react-dom": "^19.2.3",
+    "css-loader": "^7.1.2",
+    "nodemon": "^3.1.11",
+    "sass": "^1.97.3",
+    "sass-loader": "^16.0.6",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "webpack": "^5.104.1",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "@googlemaps/js-api-loader": "^2.0.2",
+    "axios": "^1.13.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mini-css-extract-plugin": "^2.10.0",
+    "multer": "^2.0.2",
+    "mysql2": "^3.16.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-router-dom": "^7.13.0"
+  }
+}

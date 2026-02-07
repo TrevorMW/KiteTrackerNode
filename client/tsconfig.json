@@ -1,0 +1,18 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "types": [
+      "google.maps"
+    ],
+    "baseUrl": "."
+  },
+  "include": [
+    "../assets/js/src/**/*"
+  ]
+}

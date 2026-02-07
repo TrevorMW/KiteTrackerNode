@@ -1,0 +1,100 @@
+@import '../variables.scss';
+
+body{
+    overflow:hidden;
+}
+
+.wrapper{
+
+    &.mainNav{
+        display: flex;
+        border-bottom:1px solid #eee;
+        align-items: center;
+        text-align:center;
+        position: relative;
+        z-index:999;
+        background-color:$white;
+    }
+
+    &.tools{
+        position: fixed;
+        text-align: center;
+        z-index:9;
+        bottom:calc(-100% + 60px);
+        left:0;
+        right:0;
+        z-index:99;
+        transition: position .3s ease;
+
+        &.active{
+            bottom:0;
+        }
+    }
+
+    &.sightingForm{
+        background-color:#fff;
+        height:calc(100vh - 60px);
+        text-align: left;
+        padding:50px;
+        overflow-y:scroll;
+    }
+}
+
+img{
+    display: inline-block;
+    width:auto;
+
+    .mainNav &{
+        height:50px;
+    }
+}
+
+.navPanelTrigger,
+.filterPanelTrigger,
+.logo{
+    flex:1;
+}
+
+.logo{
+    text-align: left;
+    padding-left:14px;
+}
+
+.navPanelTrigger,
+.filterPanelTrigger{
+    flex: 0 0 50px;
+    border-left:1px solid #eee;
+    
+    & a{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height:60px;
+        padding: 0 10px;
+        transition: all .3s ease;
+        cursor:pointer;
+
+        &:hover{
+            background-color:#f9f9f9;
+
+            & span{
+                color:$black;
+            }
+        }
+    }
+
+    & span{
+        font-size:2.5rem;
+        font-weight:200;
+
+    }
+}
+
+.navPanelTrigger{
+    border-right:1px solid #eee;
+    border-left:0;
+}
+
+.sightingButton{
+    padding: 40px 0;
+}
