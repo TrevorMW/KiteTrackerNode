@@ -1,7 +1,7 @@
 import multer from "multer";
 import { Router } from "express";
 import { pool } from "../db";
-import { CreateSightingInput } from "../types/sighting";
+import { Sighting } from "../../../shared/types/sighting";
 
 const router = Router();
 
@@ -9,11 +9,17 @@ const router = Router();
 * GET /api/sightings
 */
 router.get("/", async (_req, res) => {
-    const [rows] = await pool.query(
+    const [rows] = await pool.query<any[]>(
         "SELECT id, latitude, longitude, description, image_url, created_at FROM sightings ORDER BY created_at DESC"
     );
 
-    res.json(rows);
+    const sightings = rows.map(row => ({
+        ...row,
+        latitude: Number(row.latitude),
+        longitude: Number(row.longitude),
+    }));
+
+    res.json(sightings);
 });
 
 /**
@@ -22,7 +28,7 @@ router.get("/", async (_req, res) => {
 const upload = multer({ dest: "uploads/" });
 
 router.post("/", upload.single("photo"), async (req, res) => {
-    const body = req.body as Partial<CreateSightingInput>;
+    const body = req.body as Partial<Sighting>;
     const file: Express.Multer.File | undefined = req.file;
 
     console.log(file);

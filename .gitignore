@@ -2,3 +2,5 @@
 /assets/js/build
 /assets/scss/build
 /server/dist
+
+.env

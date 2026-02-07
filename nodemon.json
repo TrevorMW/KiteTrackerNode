@@ -1,6 +1,6 @@
 {
-    "watch": ["server/dist"],
-    "ext": "js",
-    "ignore": ["server/src"],
-    "exec": "node server/dist/index.js"
-  }
+  "watch": ["server/dist"],
+  "ext": "js",
+  "ignore": ["server/src"],
+  "exec": "node server/dist/server/src/index.js"
+}

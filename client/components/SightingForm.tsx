@@ -37,11 +37,8 @@ const SightingForm = () => {
         }
 
         loadLocation();
+    });
 
-        console.log('GET BASE COORDS: ',center);
-    })
-
-    
     return (
         <form id="sightingForm" method="POST" onSubmit={handleSightingSubmission}>
             <fieldset>

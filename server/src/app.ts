@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import path from "path";
 
 dotenv.config({
-    path: path.resolve(__dirname, "../../.env")
+    path: path.resolve(__dirname, "../../../../.env")
 });
 
 import express from "express";
@@ -13,7 +13,7 @@ import geoRouter from "./routes/geo";
 import { Request, Response } from "express";
 
 // __dirname = server/src OR dist/server (both OK)
-const PROJECT_ROOT = path.resolve(__dirname, "../../");
+const PROJECT_ROOT = path.resolve(__dirname, "../../../../");
 const app = express();
 
 app.use(express.json());

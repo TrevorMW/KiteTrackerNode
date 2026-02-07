@@ -13,6 +13,7 @@
     "baseUrl": "."
   },
   "include": [
-    "../assets/js/src/**/*"
+    "../assets/js/src/**/*",
+    "../shared"
   ]
 }

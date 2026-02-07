@@ -5,14 +5,15 @@
     "target": "ES2020",
     "lib": ["ES2020"],
     "types": ["node"],
-
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-
-    "rootDir": "src",
+    "rootDir": "..",
     "outDir": "dist",
     "baseUrl": "src",
-    "noEmit": false
+    "noEmit": false,
+    "paths": {
+      "@shared/*": ["shared/*"]
+    }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "../shared/"]
 }

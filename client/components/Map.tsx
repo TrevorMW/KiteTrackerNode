@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { setOptions, importLibrary, Loader } from "@googlemaps/js-api-loader";
 import { resolveUserLocation } from "../utils/resolveUserLocation";
 import { GeoLocationResult } from '../utils/geolocation';
+import { Sighting } from '../../shared/types/sighting';
 
 export default function Map() {
     const mapRef = useRef<HTMLDivElement>(null);
@@ -14,18 +15,18 @@ export default function Map() {
             return config.googleMapsKey;
         }
 
+        async function getSightings(): Promise<Sighting[]> {
+            const sightings = await fetch("/api/sightings").then(r => r.json());
+            return sightings;
+        }
+
         async function init() {
+            let markers = [];
             const apiKey = await getConfig();
             if (!apiKey) throw new Error("Missing Google Maps API key");
 
             const center: GeoLocationResult | null = await resolveUserLocation();
             if (!center) return;
-
-            // const loader = new Loader({
-            //     apiKey,
-            //     version: "weekly",
-            //     libraries: ["maps", "marker"],
-            // });
 
             setOptions({
                 key: apiKey,
@@ -44,13 +45,19 @@ export default function Map() {
                     zoom: center.source === "gps" ? 14 : 6
                 });
 
-                new AdvancedMarkerElement({
-                    map,
-                    position: {
-                        lat: center.lat,
-                        lng: center.lng
+                const sightings = await getSightings();
+
+                if (sightings.length > 0) {
+                    for (const sighting of sightings) {
+                        new AdvancedMarkerElement({
+                            map,
+                            position: {
+                                lat: sighting.latitude,
+                                lng: sighting.longitude
+                            } 
+                        });
                     }
-                });
+                }
             }
         }
 

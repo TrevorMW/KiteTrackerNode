@@ -1,4 +1,4 @@
-export interface CreateSightingInput {
+export interface Sighting {
     latitude: number;
     longitude: number;
     description: string;
