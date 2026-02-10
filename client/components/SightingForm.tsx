@@ -1,46 +1,29 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from "react";
 import { resolveUserLocation } from "../utils/resolveUserLocation";
-import { GeoLocationResult  } from '../utils/geolocation';
+import { GeoLocationResult } from '../utils/geolocation';
+
+import { Tag } from "../../shared/types/tag";
+
+import { useUserLocation } from "./useUserLocations";
+import { useTags } from "./useTags";
+
+import { slugify } from "../../shared/helpers/stringHelper";
+
 
 const SightingForm = () => {
-    const [center, setCenter] = useState<GeoLocationResult | null>(null);
-    const [latitude, setLatitude] = useState<number>(0);
-    const [longitude, setLongitude] = useState<number>(0);
+    const center = useUserLocation();
+    const { tags } = useTags();
 
-    const handleSightingSubmission = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const form = event.currentTarget;
-
-        // handle submission logic here. POST to /api/sightings
-        if(form instanceof HTMLFormElement) {
-            const data = new FormData(form);
-
-            axios.post('/api/sightings', data, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            }).then(() => {
-                debugger;
-            });
-        }   
+    async function handleSightingSubmission() {
+        
     }
-
-    useEffect(() => {
-        // lets load the center location
-        async function loadLocation() {
-            const geoResult = await resolveUserLocation();
     
-            if(geoResult){
-                setCenter(geoResult);
-            }
-        }
-
-        loadLocation();
-    });
-
     return (
         <form id="sightingForm" method="POST" onSubmit={handleSightingSubmission}>
+            <input id="latitude" type="hidden" name="latitude" value={center?.lat} readOnly />
+            <input id="longitude" type="hidden" name="longitude" value={center?.lng} readOnly />
+
             <fieldset>
                 <legend>Photography:</legend>
 
@@ -52,12 +35,12 @@ const SightingForm = () => {
                 </div>
             </fieldset>
             <fieldset>
-                <legend className="hasAction">
-                    <div>Location Details:</div>
-                    <div><a onClick={() => { }}>Refresh Location <span className="material-symbols-outlined">refresh</span></a></div>
+                <legend>
+                    <div>Sighting Details:</div>
+                    {/* <div><a onClick={() => { }}>Refresh Location <span className="material-symbols-outlined">refresh</span></a></div> */}
                 </legend>
 
-                <div className="fieldControl half">
+                {/* <div className="fieldControl half">
                     <label htmlFor="latitude">Latitude</label>
                     <input id="latitude" type="number" name="latitude" value={ center?.lat } readOnly />
                 </div>
@@ -65,7 +48,18 @@ const SightingForm = () => {
                 <div className="fieldControl half last">
                     <label htmlFor="longitude">Longitude</label>
                     <input id="longitude" type="number" name="longitude" value={ center?.lng } readOnly />
-                </div>
+                </div> */}
+
+                <ul className="sightingTagTypes">
+                    { tags.map(tag => (
+                        <li key={tag.tagValue}>
+                            <label htmlFor={slugify(tag.tagName)}>
+                                <input type="checkbox" id={slugify(tag.tagName)} name="sighting_tags[]" value={tag.tagValue} /> 
+                                {tag.tagName}
+                            </label>
+                        </li>
+                    ))}
+                </ul>
 
             </fieldset>
             <fieldset>

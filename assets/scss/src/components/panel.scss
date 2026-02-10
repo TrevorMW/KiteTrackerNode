@@ -1,0 +1,34 @@
+@import '../variables.scss';
+
+[data-panel]{
+    position:absolute;
+    top:61px;
+    height:calc(100vh - 61px);
+    width:100vw;
+    overflow-y:scroll;
+    max-height:100vh;
+    background-color:white;
+    
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    z-index:99;
+
+    &[data-panel-direction="right"]{
+        transform: translateX(100%);
+    }
+
+    &[data-panel-direction="left"]{
+        transform: translateX(-100%);
+    }
+
+    &.active{
+        transform: translateX(0%);
+    }
+}
+
+&[data-panel-close]{
+    position: absolute;
+    top:21px; 
+    right:21px; 
+    
+}

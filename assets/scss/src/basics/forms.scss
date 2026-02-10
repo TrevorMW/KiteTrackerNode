@@ -13,7 +13,7 @@ fieldset{
         background-color:#eee;
         padding:10px;
         color:$skyBlue;
-        font-size:1.3rem;
+        font-size:.9rem;
         font-weight:500;
 
         &.hasAction{
@@ -97,4 +97,32 @@ textarea{
 
 textarea{
     min-height:250px;
+}
+
+.sightingTagTypes{
+    margin:0;
+    padding:0;
+
+    & li{
+        display: inline-block;
+        margin-right:14px;
+        min-width:150px;
+        margin-bottom:0;
+    }
+}
+
+input[type="radio"],
+input[type="checkbox"]{
+    display: inline-block;
+    width:auto;
+    margin-right:10px;
+}
+
+
+/* file upload button */
+input[type="file"]::file-selector-button{
+    border:3px dashed #eee;
+    margin:21px;
+    cursor: pointer;
+
 }

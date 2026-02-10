@@ -9,6 +9,7 @@ import express from "express";
 import routes from "./routes";
 import sightingsRouter from "./routes/sightings";
 import geoRouter from "./routes/geo";
+import tagsRouter from "./routes/tags";
 
 import { Request, Response } from "express";
 
@@ -21,13 +22,17 @@ app.use(express.json());
 // Get google maps config key to keep from exposing it in other weird ways.
 app.get("/api/config", (req, res) => {
     res.json({
-        googleMapsKey: process.env.GOOGLE_MAPS_KEY,
+        mapID: process.env.GOOGLE_MAPS_MAP_ID,
+        apiKey: process.env.GOOGLE_MAPS_KEY,
     });
 });
 
 // Need this as a backup for browser based geolocation. 
 // If that fails, we use this to determine a rough location
 app.use("/api/geo", geoRouter);
+
+// This is used to get sightings
+app.use("/api/tags", tagsRouter);
 
 // This is used to get sightings
 app.use("/api/sightings", sightingsRouter);

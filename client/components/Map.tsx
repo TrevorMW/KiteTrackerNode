@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+
 import { setOptions, importLibrary, Loader } from "@googlemaps/js-api-loader";
+import { MarkerClusterer } from "@googlemaps/markerclusterer";
+
 import { resolveUserLocation } from "../utils/resolveUserLocation";
 import { GeoLocationResult } from '../utils/geolocation';
 import { Sighting } from '../../shared/types/sighting';
+import { Config } from '../../shared/types/config';
 
 export default function Map() {
     const mapRef = useRef<HTMLDivElement>(null);
@@ -10,9 +14,10 @@ export default function Map() {
     useEffect(() => {
         if (!mapRef.current) return;
 
-        async function getConfig(): Promise<string> {
+        async function getConfig(): Promise<Config> {
             const config = await fetch("/api/config").then(r => r.json());
-            return config.googleMapsKey;
+            console.log(config)
+            return config;
         }
 
         async function getSightings(): Promise<Sighting[]> {
@@ -21,23 +26,25 @@ export default function Map() {
         }
 
         async function init() {
-            let markers = [];
-            const apiKey = await getConfig();
-            if (!apiKey) throw new Error("Missing Google Maps API key");
+            let markers: google.maps.marker.AdvancedMarkerElement[] = [];
+
+            const config = await getConfig();
+            if (!config) throw new Error("Missing Google Maps API key");
 
             const center: GeoLocationResult | null = await resolveUserLocation();
             if (!center) return;
 
             setOptions({
-                key: apiKey,
+                key: config.apiKey
             });
 
             const { Map } = (await google.maps.importLibrary("maps")) as google.maps.MapsLibrary;
             const { AdvancedMarkerElement } = (await google.maps.importLibrary("marker")) as google.maps.MarkerLibrary;
 
             if (center) {
+                const bounds = new google.maps.LatLngBounds();
                 const map = new Map(mapRef.current!, {
-                    mapId: 'b12820423a3f993d8a49cc1a',
+                    mapId: config.mapID,
                     center: {
                         lat: center.lat,
                         lng: center.lng
@@ -49,14 +56,25 @@ export default function Map() {
 
                 if (sightings.length > 0) {
                     for (const sighting of sightings) {
-                        new AdvancedMarkerElement({
+                        const marker = new AdvancedMarkerElement({
                             map,
                             position: {
                                 lat: sighting.latitude,
                                 lng: sighting.longitude
-                            } 
+                            }
                         });
+
+                        markers.push(marker);
+
+                        bounds.extend({ lat: sighting.latitude, lng: sighting.longitude });
                     }
+
+                    new MarkerClusterer({
+                        map,
+                        markers,
+                    });
+
+                    map.fitBounds(bounds);
                 }
             }
         }

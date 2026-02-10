@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Sighting {
+  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  latitude    Decimal  @db.Decimal(9, 6)
+  longitude   Decimal  @db.Decimal(9, 6)
+  description String   @db.Text
+  image_url   String   @db.VarChar(512)
+  tags        SightingTag[]    // One sighting has many tags
+  created_at  DateTime @default(now()) @db.Timestamp(0)
+  updated_at  DateTime @default(now()) @db.Timestamp(0)
+
+  @@map("sightings")
+}
+
+model Tag {
+  id         BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  tagName    String    @map("tag_name") @db.VarChar(100)
+  tagValue   String    @map("tag_value") @db.VarChar(255)
+  createdAt  DateTime  @default(now()) @map("created_at")
+  
+  sighting   SightingTag[]
+  
+  @@map("tags")
+}
+
+model SightingTag {
+  sightingId BigInt   @map("sighting_id") @db.UnsignedBigInt
+  tagId      BigInt   @map("tag_id") @db.UnsignedBigInt
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  sighting   Sighting @relation(fields: [sightingId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([sightingId, tagId])
+  @@index([tagId])
+  @@map("sighting_tags")
+}
